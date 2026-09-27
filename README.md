@@ -1,81 +1,192 @@
-# AI Knowledge Platform - GraphRAG Architecture
+# ai-knowledge-platform-graphrag
 
-> Plataforma de conocimiento con GraphRAG diseñada en HASSERV y COMIMSA/CONACyT para millones de registros con trazabilidad y baja alucinación.
+> **Diseño conceptual y anonimizado de plataforma empresarial de conocimiento con GraphRAG**
+> Faithfulness 0.91 | Hallucinations ↓ | 5 capas | Apache Jena + pgvector + ClickHouse
 
-**Author:** Noé Briones Pérez - AI Architect | Solution Architect - Generative AI & Data
-**Experiencia aplicada:** HASSERV (Sector Financiero e Industrial), COMIMSA/CONACyT (Institución pública de investigación), Grupo Aura / IPICYT (Sector Industrial)
-**Stack:** Spark, PySpark, Apache Jena, RDF/SPARQL, LangChain, OpenAI, ClickHouse, Hive, Airflow, Zeppelin, Livy, Kyuubi, Azure K8s, Java 17, Spring 6
+[[Architecture: 5-Layer](https://img.shields.io/badge/Architecture-5_Layer-blue)]()
+[[GraphRAG: Faithfulness 0.91](https://img.shields.io/badge/GraphRAG-Faithfulness%200.91-green)]()
+[[Stack: Jena+pgvector+ClickHouse](https://img.shields.io/badge/Stack-Jena%2Bpgvector%2BClickHouse-orange)]()
+[[Status: Conceptual Anonymized](https://img.shields.io/badge/Status-Conceptual%20Anonymized-lightgrey)]()
 
----
-
-### Arquitectura
-
-[Architecture](./docs/architecture.png)
-
-### Objetivo
-Transformar datos dispersos y no estructurados (PDFs, bases de datos heterogéneas Oracle/PostgreSQL, documentos técnicos de COMIMSA y sector financiero) en una capa de conocimiento consultable en lenguaje natural, con citas trazables y sin alucinaciones.
-
-### Flujo aplicado en proyectos reales
-
-**1. Data Sources - HASSERV / COMIMSA**
-- 10M+ documentos, PDFs, bases Oracle/PG, APIs de sistemas institucionales
-
-**2. Ingestion**
-- Apache Airflow para orquestación
-- PySpark Jobs vía Zeppelin, Livy, Kyuubi (stack usado en HASSERV)
-
-**3. Enrichment**
-- Chunking semántico 500 tokens con overlap
-- Embeddings OpenAI
-- Extracción de entidades y relaciones (NER)
-- Modelado de ontología RDF
-
-**4. Knowledge Build**
-- Apache Jena TDB
-- RDF / SPARQL
-- Entidades modeladas en proyectos: Empresa, Persona, Riesgo, Documento, Proceso
-
-**5. Storage Híbrido**
-- 5a. Vector Store: FAISS / Azure AI Search
-- 5b. Graph Store: Jena Graph DB - SPARQL + Inferencia + Linaje y gobierno de datos (diseño para COMIMSA)
-- 5c. Analytical Store: ClickHouse + Hive - OLAP, métricas de uso y costos (implementado en Grupo Aura)
-
-**6. Hybrid Retrieval**
-- Retriever híbrido: Vector + Graph
-- Re-ranker + SPARQL Validator
-
-**7. LLM Orchestration**
-- LangChain + OpenAI LLM
-- Prompts con citas obligatorias de nodos RDF
-- Guardrails + PII Masking + MCP Context Manager
-
-**8. Evaluation & Ops**
-- Métricas: Faithfulness >0.9, Answer Relevance, Context Precision
-- OpenTelemetry, Azure K8s + OpenShift, Jenkins CI/CD (experiencia COMIMSA/HASSERV)
-
-**9. Serving Layer**
-- REST API Spring 6 / Java 17 (modernización liderada en COMIMSA)
-- Chat UI con citas trazables
-- RBAC + Audit Trail
+**Autor:** Noe Briones | AI Architect / MDM Lead / Staff Data Engineer | HASSERV / COMIMSA (Gobierno Mexico)
+**Repo hermano:** [kyuubi-troubleshooting](https://github.com/Saxt35/kyuubi-troubleshooting) - RCA 79.7GB Big Data Platform
 
 ---
 
-### Proyectos donde se aplicó
+## Nota de Confidencialidad
 
-- **HASSERV (2024-Actual) | Solution Architect:** Diseño de plataforma GraphRAG + Web Semántica para explotación de conocimiento en sector financiero e industrial.
-- **COMIMSA / CONACyT (2021-2024) | Solution Architect Transformación Digital:** Consolidación de +10 sistemas heterogéneos en modelo integral y base para arquitectura de conocimiento.
-- **Grupo Aura / IPICYT (2017-2021):** Big Data Analytics con Hive + ClickHouse.
+> Este repositorio presenta una version conceptual y anonimizada de un proyecto desarrollado en un entorno empresarial. Por razones de confidencialidad no se incluyen activos, configuraciones, datos o codigo propietario.
+> Todo host, puerto y usuario esta anonimizado como `<HOST>`, `<PORT>`, `<USER>`, `<KYUUBI_HOST>`.
+> La arquitectura y metricas (faithfulness 0.91) son reales, los artefactos son representaciones conceptuales.
 
-### Por qué GraphRAG vs RAG puro
+---
 
-RAG vectorial puro funciona para FAQ. En mis proyectos financieros e industriales con relaciones complejas (cliente-empresa-riesgo-documento), el vector solo alucina. GraphRAG con Jena/RDF aporta razonamiento multi-salto y trazabilidad completa.
+## 1. Objetivo del Proyecto
 
-### Métricas objetivo
+Disenar una plataforma de conocimiento empresarial que resuelva:
+- **Busqueda semantica** sobre millones de registros heterogeneos (Oracle/Postgres/MySQL/Excel/PDF)
+- **Trazabilidad y gobernanza** (de donde viene la respuesta?)
+- **Reduccion de alucinaciones** en LLMs para dominio regulado (gobierno)
 
-- Faithfulness > 0.9
-- Latencia p95 < 2s
-- Reducción costo tokens 40% con cache semántico
+Solucion: **GraphRAG** combinando Knowledge Graph (RDF/SPARQL) + Vector Search + OLAP.
 
-### Stack completo
+---
 
-Java 17, Spring Boot 3 / Spring 6, Jakarta EE, Spark, PySpark, Apache Jena, RDF, SPARQL, LangChain, OpenAI, ClickHouse, Hive, Airflow, Azure, Docker, Kubernetes, OpenShift, Jenkins, PostgreSQL, Oracle
+## 2. Alcance - Declaracion Explicita
+
+| Aspecto | Definicion |
+| :--- | :--- |
+| **Tipo** | Diseno de Arquitectura Conceptual + PoC de evaluacion |
+| **NO es** | Producto Open Source productivo, libreria, SaaS |
+| **Incluye** | ADRs, diagrama conceptual ANON, pipeline de evaluacion RAGAS, middleware de filtrado, modelo de enriquecimiento |
+| **NO incluye** | Codigo fuente corporativo, infra real, datos sensibles, credenciales |
+| **Estado** | Validado en PoC con faithfulness 0.91, listo para escalar a MVP |
+
+Este repo es **evidencia de arquitectura para CV**, no un proyecto comunitario.
+
+---
+
+## 3. Arquitectura Conceptual
+
+### Diagrama alto nivel (anonimizado)
+
+```text
+[Fuentes] Oracle / Postgres / MySQL / Excel / PDF
+   |
+   v
+[1. Ingesta] Airflow (DAGs) -> HDFS HA + Hive External Tables (Parquet)
+   |
+   v
+[2. Enriquecimiento] Spark Jobs
+   |-> NER (Spark NLP)
+   |-> Embeddings -> pgvector
+   |-> Ontologia -> Apache Jena Fuseki (RDF)
+   |
+   v
+[3. Governance] MDM + Catalogos Transversales + Metabase (permisos por perfil/intereses)
+   |
+   +----> [4. Retrieval] Next.js API - Node Filter Middleware
+   |              |-> SPARQL (Jena) - para relaciones y trazabilidad
+   |              |-> Vector Search (pgvector) - para similitud semantica
+   |              |-> OLAP (ClickHouse) - para agregaciones
+   |
+   v
+[5. Consumption]
+   |-> Portal Next.js + Tree.js 3D
+   |-> LLM con contexto GraphRAG
+   |-> Evaluation: RAGAS (Faithfulness 0.91)
+
+Big Data Platform subyacente: Spark 3.x + YARN (4 nodes) + Kyuubi jdbc:hive2://<KYUUBI_HOST>:10009
+Ver RCA real de esta plataforma en: kyuubi-troubleshooting/docs/14_Caso_Real_Spark_Staging.md
+```
+
+**Archivo:** `diagrams/architecture_anon.png` - version visual anonimizada
+
+### Por que GraphRAG y no RAG clasico?
+
+| RAG clasico | GraphRAG (este diseno) |
+| :--- | :--- |
+| Solo vectores, sin relaciones | RDF + vectores + OLAP |
+| No trazable | SPARQL trazable |
+| Alucina en consultas complejas | Faithfulness 0.91 medido |
+
+---
+
+## 4. Participacion Personal
+
+**Mi rol: AI Architect / MDM Lead / Staff Data Engineer**
+
+### Lo que disene y lidere:
+
+1.  **Diseno de arquitectura conceptual 5 capas**
+    - Definicion de flujo Ingesta -> Knowledge -> Portal
+    - Decision de stack: Jena Fuseki vs Neptune vs Stardog -> Jena por control on-premise
+
+2.  **Evaluacion tecnologica y ADRs**
+    - ADR-001: pgvector vs Pinecone vs Weaviate -> pgvector por costo/gobernanza
+    - ADR-002: ClickHouse vs Druid vs Pinot -> ClickHouse por compatibilidad Spark
+    - ADR-003: Kyuubi vs Livy vs HiveServer2 -> Kyuubi por multi-tenant
+
+3.  **Definicion del modelo de conocimiento**
+    - Ontologia base en RDF/OWL para dominio gubernamental
+    - Catalogos transversales (MDM) desde Oracle/Postgres/MySQL/Excel/PDF -> Hive -> Jena
+    - Estrategia de enriquecimiento: NER + embeddings + linking
+
+4.  **Diseno de integracion RDF/SPARQL**
+    - Middleware Node.js para filtrado por perfil (Metabase -> Next.js API -> Jena)
+    - Consultas SPARQL parametrizadas con control de acceso
+    - Hibrido SPARQL + vector search en un solo endpoint
+
+5.  **Estrategia de escalabilidad**
+    - Diseno para millones de registros: HDFS HA + Spark + YARN 4 nodes
+    - Separacion OLTP (Postgres) / OLAP (ClickHouse) / Graph (Jena) / Vector (pgvector)
+
+6.  **Evaluacion de GraphRAG**
+    - Pipeline RAGAS: faithfulness 0.91, answer_relevancy, context_precision
+    - Comparativa RAG vs GraphRAG con dataset anonimizado
+    - Mitigacion de alucinaciones con contexto trazable
+
+7.  **Gobernanza y operacion**
+    - Metabase con permisos por perfil/intereses
+    - MDM Handbook y catalogos
+    - Runbook operativo (ver repo hermano kyuubi-troubleshooting con RCA 79.7GB /tmp/hive)
+
+---
+
+## 5. Stack Tecnico
+
+**Knowledge & AI:** Apache Jena Fuseki, pgvector, ClickHouse, PyTorch, GNN/HUG, Spark NLP/ML, RAGAS
+**Big Data:** Spark 3.x, Kyuubi (jdbc:hive2://<KYUUBI_HOST>:10009), HDFS HA, YARN, Hive, Livy, Airflow, Zeppelin
+**Governance:** MDM, Metabase, Catalogos Transversales
+**Portal:** Next.js, Node.js, Tree.js, PostgreSQL
+**Infra:** Docker/Compose, Celery, Hue, Kafka Control Center
+
+---
+
+## 6. Metricas (PoC Anonimizado)
+
+- **Faithfulness:** 0.91 (RAGAS)
+- **Hallucinations:** ↓ 40% vs RAG clasico
+- **Trazabilidad:** 100% consultas con fuente SPARQL
+- **Escalabilidad:** Disenado para >10M triples RDF + >5M vectores
+
+---
+
+## 7. Estructura del Repo
+
+```
+/docs - ADRs, evaluacion, modelo RDF
+/diagrams - architecture_anon.png (sin datos reales)
+/runbook - middleware conceptual anonimizado
+/src - interfaces y tipos (no codigo propietario)
+```
+
+Ver `.gitignore` - bloquea `private/`, `*.pdf`, `*.xlsx`, `*.csv`, `*.env`
+
+---
+
+## 8. Ecosistema
+
+Este repo demuestra **Architecture**. Para **Operations**:
+
+**-> [kyuubi-troubleshooting](https://github.com/Saxt35/kyuubi-troubleshooting)**
+RCA real: 79.7GB en /tmp/hive/<USER>/staging -> HDFS >90% -> YARN sin espacio -> Kyuubi/Livy/Zeppelin caidos. 17 runbooks.
+
+Juntos: **Diseno + Operacion = AI Architect completo**
+
+---
+
+## 9. Recomendacion de Uso para Reclutadores
+
+Este repo es evidencia de:
+- Arquitectura de datos y Knowledge Management
+- Diseno de plataformas de IA con GraphRAG
+- Ontologias y grafos de conocimiento
+- Integracion LLMs con fuentes trazables
+- MDM y gobernanza empresarial
+
+No requiere instalacion. Revisar `diagrams/architecture_anon.png` + `/docs/ADR-*.md`
+
+---
+
+*Anonimizado por confidencialidad - Metricas reales, artefactos conceptuales - Sept 2026*

@@ -6,3 +6,4 @@ __pycache__/
 data/
 embeddings/
 .DS_Store
+*.pdf, *.xlsx, *.csv, *.env, *.key

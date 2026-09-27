@@ -3,10 +3,10 @@
 > **Diseño conceptual y anonimizado de plataforma empresarial de conocimiento con GraphRAG**
 > Faithfulness 0.91 | Hallucinations ↓ | 5 capas | Apache Jena + pgvector + ClickHouse
 
-[[Architecture: 5-Layer](https://img.shields.io/badge/Architecture-5_Layer-blue?style=for-the-badge)](https://github.com/Saxt35/ai-knowledge-platform-graphrag#3-arquitectura-conceptual---tecnologías-soporte)
-[[GraphRAG: Faithfulness 0.91](https://img.shields.io/badge/GraphRAG-Faithfulness%200.91-green?style=for-the-badge)](https://github.com/Saxt35/ai-knowledge-platform-graphrag#6-métricas-poc)
-[[Stack: Jena+pgvector+ClickHouse](https://img.shields.io/badge/Stack-Jena%2Bpgvector%2BClickHouse-orange?style=for-the-badge)](https://github.com/Saxt35/ai-knowledge-platform-graphrag#5-stack-técnico-mapeado-al-diagrama)
-[[Status: Conceptual Anonymized](https://img.shields.io/badge/Status-Conceptual%20Anonymized-lightgrey?style=for-the-badge)](https://github.com/Saxt35/ai-knowledge-platform-graphrag#-nota-de-confidencialidad)
+[![Architecture: 5-Layer](https://img.shields.io/badge/Architecture-5_Layer-blue?style=for-the-badge)](https://github.com/Saxt35/ai-knowledge-platform-graphrag#3-arquitectura-conceptual---tecnologías-soporte)
+[![GraphRAG: Faithfulness 0.91](https://img.shields.io/badge/GraphRAG-Faithfulness%200.91-green?style=for-the-badge)](#6-métricas-poc)
+[![Stack: Jena+pgvector+ClickHouse](https://img.shields.io/badge/Stack-Jena%2Bpgvector%2BClickHouse-orange?style=for-the-badge)](#5-stack-técnico-mapeado-al-diagrama)
+[![Status: Conceptual Anonymized](https://img.shields.io/badge/Status-Conceptual%20Anonymized-lightgrey?style=for-the-badge)](#️-nota-de-confidencialidad)
 
 **Autor:** Noe Briones | AI Architect / MDM Lead | HASSERV / COMIMSA
 **Repo hermano:** [kyuubi-troubleshooting](https://github.com/Saxt35/kyuubi-troubleshooting)
